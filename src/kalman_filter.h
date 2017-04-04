@@ -64,6 +64,11 @@ public:
    */
   void UpdateEKF(const Eigen::VectorXd &z);
 
+  void Update_Posterier(const Eigen::VectorXd &y);
+
+  bool Check_Nan(const Eigen::MatrixXd Si);
+private:
+  const float SMALL_NUMBER = 1e-6;
 };
 
 #endif /* KALMAN_FILTER_H_ */
