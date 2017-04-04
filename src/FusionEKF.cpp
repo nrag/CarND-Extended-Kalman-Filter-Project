@@ -81,7 +81,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       float vy = measurement_pack.raw_measurements_[2] * sin(measurement_pack.raw_measurements_[1]);
 
       //set the state with the initial location and zero velocity
-      ekf_.x_ << px, py, 0, 0;
+      ekf_.x_ << px, py, vx, vy;
       cout << "Initialized x_ = " << ekf_.x_ << endl;
     }
     else if (measurement_pack.sensor_type_ == MeasurementPackage::LASER) {
