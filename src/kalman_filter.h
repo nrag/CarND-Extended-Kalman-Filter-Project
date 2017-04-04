@@ -67,7 +67,11 @@ public:
   void Update_Posterier(const Eigen::VectorXd &y);
 
   bool Check_Nan(const Eigen::MatrixXd Si);
+
 private:
+  /**
+   * Constant to prevent division by zero
+   */
   const float SMALL_NUMBER = 1e-6;
 };
 

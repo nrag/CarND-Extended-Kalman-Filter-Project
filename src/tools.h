@@ -24,8 +24,12 @@ public:
   * A helper method to calculate Jacobians.
   */
   Eigen::MatrixXd CalculateJacobian(const Eigen::VectorXd& x_state);
+
 private:
-  const float SMALL_NUMBER = 1e-5;
+  /**
+   * Constant to prevent division by zero
+   */
+  const float SMALL_NUMBER = 1e-6;
 };
 
 #endif /* TOOLS_H_ */
