@@ -12,12 +12,10 @@ Tools::~Tools() {}
 
 VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
                               const vector<VectorXd> &ground_truth) {
-
   VectorXd rmse(4);
   rmse << 0,0,0,0;
 
-  if((estimations.size() != ground_truth.size()) || 
-     estimations.size() == 0){
+  if((estimations.size() != ground_truth.size()) || estimations.size() == 0){
     cout << "Invalid estimation or ground_truth data" << endl;
     return rmse;
   }
@@ -44,6 +42,9 @@ VectorXd Tools::CalculateRMSE(const vector<VectorXd> &estimations,
 
 MatrixXd Tools::CalculateJacobian(const Eigen::VectorXd& x_state) {
   MatrixXd Hj(3,4);
+  Hj << 0, 0, 0, 0, 
+        0, 0, 0, 0, 
+        0, 0, 0, 0;
 
   //recover state parameters
   float px = x_state(0);
@@ -51,13 +52,20 @@ MatrixXd Tools::CalculateJacobian(const Eigen::VectorXd& x_state) {
   float vx = x_state(2);
   float vy = x_state(3);
   
-  //ensure we don't divide by zero
+  // Add a small number to prevent division by zero
   float denom = px*px + py*py + SMALL_NUMBER;
-
-  //compute the Jacobian matrix 
-  Hj << px/sqrt(denom), py/sqrt(denom), 0, 0, 
-        -py/denom, px/denom, 0, 0, 
-        py * (vx * py - vy * px)/(denom * sqrt(denom)), px * (vy * px - vx * py)/(denom * sqrt(denom)), px/sqrt(denom), py/sqrt(denom);
+    
+  // compute the Jacobian matrix 
+  Hj(0, 0) = px/sqrt(denom);
+  Hj(0, 1) = py/sqrt(denom);
+  
+  Hj(1, 0) = -py/denom;
+  Hj(1, 1) = px/denom;
+  
+  Hj(2, 0) = py * (vx * py - vy * px)/(denom * sqrt(denom));
+  Hj(2, 1) = px * (vy * px - vx * py)/(denom * sqrt(denom));
+  Hj(2, 2) = px/sqrt(denom);
+  Hj(2, 3) = py/sqrt(denom);
 
   return Hj;
 }
