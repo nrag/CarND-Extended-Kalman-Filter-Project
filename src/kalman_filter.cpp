@@ -45,7 +45,7 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
 
   if (y[1] > M_PI && y[1] < -M_PI) {
     int quantity = static_cast<int>(y[1] / M_PI);
-    y[1] -= quantity;
+    y[1] -= quantity * M_PI;
   }
 
   Update_Posterier(y);
