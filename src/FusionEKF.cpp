@@ -25,12 +25,12 @@ FusionEKF::FusionEKF() {
 
   //measurement covariance matrix - laser
   R_laser_ << 0.0225, 0,
-        0, 0.0225;
+              0, 0.0225;
 
   //measurement covariance matrix - radar
   R_radar_ << 0.09, 0, 0,
-        0, 0.0009, 0,
-        0, 0, 0.09;
+              0, 0.0009, 0,
+              0, 0, 0.09;
 
   H_laser_ << 1, 0, 0, 0,
               0, 1, 0, 0;
@@ -38,17 +38,17 @@ FusionEKF::FusionEKF() {
   //state covariance matrix P
   MatrixXd P_in = MatrixXd(4, 4);
   P_in << 1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1000, 0,
-        0, 0, 0, 1000;
+          0, 1, 0, 0,
+          0, 0, 1000, 0,
+          0, 0, 0, 1000;
 
 
   //the initial transition matrix F_
   MatrixXd F_in = MatrixXd(4, 4);
   F_in << 1, 0, 1, 0,
-        0, 1, 0, 1,
-        0, 0, 1, 0,
-        0, 0, 0, 1;
+          0, 1, 0, 1,
+          0, 0, 1, 0,
+          0, 0, 0, 1;
 
   MatrixXd Q_in = MatrixXd(4, 4);
 
@@ -56,9 +56,6 @@ FusionEKF::FusionEKF() {
   x_in << 1, 1, 1, 1;
 
   ekf_.Init(x_in, P_in, F_in, H_laser_, R_laser_, Q_in);
-
-  noise_ax = 9;
-  noise_ay = 9;
 }
 
 /**
